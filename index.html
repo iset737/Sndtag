@@ -1,1 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Button</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('https://raw.githubusercontent.com/iset737/Sndtag/main/20250312_180959.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Roboto', sans-serif;
+        }
+        .container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .button {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 2px solid white; /* Тонкая обводка кнопки */
+            cursor: pointer;
+            position: relative;
+            background: url('https://raw.githubusercontent.com/iset737/Sndtag/main/20250314_165716.jpg') no-repeat center center;
+            background-size: cover;
+            transition: filter 0.3s ease; /* Плавный эффект затемнения */
+            outline: none; /* Убираем стандартную обводку */
+            box-shadow: none; /* Убираем тень */
+        }
+        .button.playing {
+            filter: brightness(50%); /* Затемнение кнопки при воспроизведении */
+        }
+        .label-container {
+            background-color: rgba(0, 0, 0, 0.5); /* Темный фон под текстом */
+            border-radius: 10px;
+            padding: 5px 15px;
+            margin-top: 10px;
+            backdrop-filter: blur(5px); /* Размытие фона */
+        }
+        .label {
+            font-size: 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
 
+    <div class="container">
+        <button class="button" id="playButton"></button>
+        <div id="playPauseLabel" class="label-container">
+            <span class="label">Play</span>
+        </div>
+    </div>
+
+    <audio id="audio" loop>
+        <source src="https://raw.githubusercontent.com/iset737/Sndtag/main/BASS_-_bass_stony_75979858.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио.
+    </audio>
+
+    <script>
+        const playButton = document.getElementById('playButton');
+        const audio = document.getElementById('audio');
+        const label = document.getElementById('playPauseLabel').querySelector('.label');
+
+        playButton.addEventListener('click', async () => {
+            try {
+                if (audio.paused) {
+                    await audio.play();
+                    label.textContent = 'Pause'; // Меняем текст на "Pause"
+                    playButton.classList.add('playing'); // Затемняем кнопку
+                } else {
+                    audio.pause();
+                    label.textContent = 'Play'; // Меняем текст на "Play"
+                    playButton.classList.remove('playing'); // Убираем затемнение кнопки
+                }
+            } catch (error) {
+                console.error('Ошибка воспроизведения:', error);
+                alert('Не удалось воспроизвести аудио. Попробуйте другой браузер.');
+            }
+        });
+    </script>
+
+</body>
+</html>
